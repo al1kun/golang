@@ -1,0 +1,109 @@
+package main
+
+import "fmt"
+
+type BeepBehavior interface {
+	Beep()
+}
+
+type DriftBehavior interface {
+	Drift()
+}
+
+type Drift struct {
+}
+
+func (_ *Drift) Drift() {
+	fmt.Println("vroooom!")
+}
+
+type NotDrift struct {
+}
+
+func (_ *NotDrift) Drift() {
+	fmt.Println("can not vroooom :(")
+}
+
+type Beep struct {
+}
+
+func (_ *Beep) Beep() {
+	fmt.Println("beep!")
+}
+
+type Lights struct {
+}
+
+func (_ *Lights) Beep() {
+	fmt.Println("lights turned on!")
+}
+
+type NoBeep struct {
+}
+
+func (_ *NoBeep) Beep() {
+	fmt.Println("can not beep..")
+}
+
+type Car struct {
+	beepBehavior  BeepBehavior
+	driftBehavior DriftBehavior
+}
+
+func (d *Car) SetBeepBehavior(beepBehavior BeepBehavior) {
+	d.beepBehavior = beepBehavior
+}
+
+func (d *Car) SetDriftBehavior(driftBehavior DriftBehavior) {
+	d.driftBehavior = driftBehavior
+}
+
+func (d *Car) PerformDrift() {
+	d.driftBehavior.Drift()
+}
+
+func (d *Car) PerformBeep() {
+	d.beepBehavior.Beep()
+}
+
+type BmwCar struct {
+	car Car
+}
+
+func (_ *BmwCar) Display() {
+	fmt.Println("Bmw car")
+}
+
+type MercCar struct {
+	car Car
+}
+
+func (_ *MercCar) Display() {
+	fmt.Println("Merc car")
+}
+
+type ToyotaCar struct {
+	car Car
+}
+
+func (_ *ToyotaCar) Display() {
+	fmt.Println("Toyota car")
+}
+
+func main() {
+	bmw := BmwCar{car: Car{&Beep{}, &Drift{}}}
+	bmw.Display()
+	bmw.car.PerformBeep()
+	bmw.car.PerformDrift()
+
+	merc := MercCar{car: Car{&Lights{}, &NotDrift{}}}
+	merc.Display()
+	merc.car.PerformBeep()
+	merc.car.PerformDrift()
+
+	toyota := ToyotaCar{car: Car{&NoBeep{}, &NotDrift{}}}
+	toyota.Display()
+	toyota.car.PerformBeep()
+	toyota.car.PerformDrift()
+
+}

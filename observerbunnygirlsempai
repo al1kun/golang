@@ -6,7 +6,7 @@ func main() {
 	BunnyGirlEp := NEpisode("Bunny Girl Sempai")
 	obs1 := &Viewer{"Mai"}
 	obs2 := &Viewer{"Sakuta"}
-	observer3 := &Viewer{"Kaede"}
+	obs3 := &Viewer{"Kaede"}
 
 	BunnyGirlEp.attach(obs1)
 	BunnyGirlEp.attach(obs2)
